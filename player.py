@@ -31,4 +31,4 @@ class Player(Character):
         self.player_x += dx * dt
         self.player_y += dy * dt
         self.rect.x = int(self.player_x)
-        self.rect.y = self.player_y
+        self.rect.y = int(self.player_y)
