@@ -1,6 +1,11 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 BACKGROUND_COLOR = (0, 0, 100)
-PLAYER_PATH = "assets/images/characters/elf/idle/0.png"
+PLAYER_PATH = "assets/images/characters/elf/idle/"
 CHARACTER_FACTOR = 2.5
 PLAYER_SPEED = 250
 PLAYER_X, PLAYER_Y = 400, 300
+PLAYER_OFFSET = 12
+ANIMATION_COOLDOWN = 80
+R_COLOR = (255, 0, 0)
+G_COLOR = (0, 255, 0)
+B_COLOR = (0, 0, 255)

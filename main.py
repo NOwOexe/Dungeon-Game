@@ -1,3 +1,4 @@
+import os
 import pygame
 import constant as const
 from character import *
@@ -11,13 +12,23 @@ class Game():
         self.start_time = pygame.time.get_ticks()
 
         #Player
-        player_image  = pygame.image.load(const.PLAYER_PATH).convert_alpha()
-        player_image = self.change_scale(player_image)
-        self.player = Player(player_image, const.PLAYER_X, const.PLAYER_Y)
+        player_idle_animation = self.load_animation()
+        self.player = Player(player_idle_animation, const.PLAYER_X, const.PLAYER_Y)
 
     def change_scale(self, image):
         image = pygame.transform.scale_by(image, const.CHARACTER_FACTOR)
         return image
+    
+    def load_image(self, path):
+        return pygame.image.load(path).convert_alpha()
+    
+    def load_animation(self):
+        lst = []
+        for i in range(4):
+            image = self.load_image(os.path.join(const.PLAYER_PATH, f"{i}.png"))
+            image = self.change_scale(image)
+            lst.append(image)
+        return lst
 
     def run(self):
         run = True
@@ -33,6 +44,7 @@ class Game():
             self.screen.fill(const.BACKGROUND_COLOR)
             self.player.draw(self.screen)
             self.player.move(delta_time)
+            self.player.update()
             pygame.display.update()
 
         pygame.quit()
