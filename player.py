@@ -6,8 +6,8 @@ from character import *
 class Player(Character):
     def __init__(self, animation, x, y):
         super().__init__(animation, x, y)
-        self.rect = pygame.Rect(const.PLAYER_X, const.PLAYER_Y, animation[0].get_width(),
-                                animation[0].get_height() - const.PLAYER_OFFSET * const.CHARACTER_FACTOR)
+        self.rect = pygame.Rect(const.PLAYER_X, const.PLAYER_Y, animation[0][0].get_width(),
+                                animation[0][0].get_height() - const.PLAYER_OFFSET * const.CHARACTER_FACTOR)
         self.speed = const.PLAYER_SPEED
         self.player_x, self.player_y = float(const.PLAYER_X), float(const.PLAYER_Y)
         
@@ -32,6 +32,12 @@ class Player(Character):
         if key[pygame.K_d]:
             dx = self.speed
             self.set_flip(False)
+
+        if dx == 0 and dy == 0:
+            self.animate = 0
+
+        if dx != 0 or dy != 0:
+            self.animate = 1
 
         if dx != 0 and dy != 0:
             dx *= math.cos(math.radians(45))

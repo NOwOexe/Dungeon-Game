@@ -1,7 +1,9 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 BACKGROUND_COLOR = (0, 0, 100)
-PLAYER_PATH = "assets/images/characters/elf/idle/"
+PLAYER_PATH = "assets/images/characters/"
+BOW_PATH = "assets/images/weapons/bow.png"
 CHARACTER_FACTOR = 2.5
+BOW_FACTOR = 1.25
 PLAYER_SPEED = 250
 PLAYER_X, PLAYER_Y = 400, 300
 PLAYER_OFFSET = 12
