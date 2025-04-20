@@ -25,11 +25,16 @@ class Game():
         player_idle_animation = self.load_animation()
         self.player = Player(player_idle_animation[self.char_dict["elf"]], const.PLAYER_X, const.PLAYER_Y)
 
+        #Arrow
+        arrow_img = self.load_image(const.ARROW_PATH)
+        arrow_img = self.change_scale(arrow_img, const.ARROW_FACTOR)
+        self.arrow_group = pygame.sprite.Group()
+        
         #Weapon
         bow_img = self.load_image(const.BOW_PATH)
         bow_img = self.change_scale(bow_img, const.BOW_FACTOR)
-        self.bow = Weapon(bow_img, self.player.rect.x, self.player.rect.y)
- 
+        self.bow = Weapon(bow_img, self.player.rect.centerx, self.player.rect.centery, arrow_img)
+        
     def change_scale(self, image, factor):
         image = pygame.transform.scale_by(image, factor)
         return image
@@ -69,7 +74,11 @@ class Game():
             self.player.move(delta_time)
             self.bow.draw(self.screen)
             self.player.update()
-            self.bow.update(self.player)
+            self.arrow = self.bow.update(self.player)
+            if self.arrow:
+                self.arrow_group.add(self.arrow)
+            self.arrow_group.draw(self.screen)
+            self.arrow_group.update(delta_time)
             pygame.display.update()
 
         pygame.quit()
