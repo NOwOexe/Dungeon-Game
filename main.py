@@ -4,6 +4,13 @@ import constant as const
 from character import *
 from player import *
 from weapon import *
+from enemy import *
+
+class Damage_Text(pygame.sprite.Sprite):
+    def __init__(self, x, y, image):
+        super().__init__()
+        self.image = image
+        self.rect = self.image.get_rect(x = x, y = y)
 
 class Game():
     def __init__(self):
@@ -22,8 +29,17 @@ class Game():
         }
 
         #Player
-        player_idle_animation = self.load_animation()
-        self.player = Player(player_idle_animation[self.char_dict["elf"]], const.PLAYER_X, const.PLAYER_Y)
+        animation = self.load_animation()
+        self.player = Player(animation[self.char_dict["elf"]], const.PLAYER_X, const.PLAYER_Y, const.PLAYER_HEALTH)
+        
+        #Enemy
+        self.enemy = Enemy(animation[self.char_dict["goblin"]], const.PLAYER_X, const.PLAYER_Y, const.ENEMY_HEALTH)
+        self.enemy2 = Enemy(animation[self.char_dict["big_demon"]], const.PLAYER_X+ 100, const.PLAYER_Y, const.ENEMY_HEALTH)
+        self.enemy3 = Enemy(animation[self.char_dict["skeleton"]], const.PLAYER_X +200, const.PLAYER_Y, const.ENEMY_HEALTH)
+        self.enemy_group = pygame.sprite.Group()
+        self.enemy_group.add(self.enemy)
+        self.enemy_group.add(self.enemy2)
+        self.enemy_group.add(self.enemy3)
 
         #Arrow
         arrow_img = self.load_image(const.ARROW_PATH)
@@ -34,6 +50,9 @@ class Game():
         bow_img = self.load_image(const.BOW_PATH)
         bow_img = self.change_scale(bow_img, const.BOW_FACTOR)
         self.bow = Weapon(bow_img, self.player.rect.centerx, self.player.rect.centery, arrow_img)
+        
+        #Damege_text_group
+        self.damage_text_group = pygame.sprite.Group()
         
     def change_scale(self, image, factor):
         image = pygame.transform.scale_by(image, factor)
@@ -78,7 +97,12 @@ class Game():
             if self.arrow:
                 self.arrow_group.add(self.arrow)
             self.arrow_group.draw(self.screen)
-            self.arrow_group.update(delta_time)
+            self.arrow_group.update(delta_time, self.enemy_group, self.damage_text_group)
+            # if damage_text:
+            #     self.damage_text_group.add(Damage_Text(enemy_pos[0], enemy_pos[1], damage_text))
+            #     self.damage_text_group.draw()
+            self.enemy_group.draw(self.screen)
+            self.damage_text_group.draw(self.screen)
             pygame.display.update()
 
         pygame.quit()

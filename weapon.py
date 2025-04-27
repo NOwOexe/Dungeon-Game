@@ -1,6 +1,8 @@
 import pygame
 import math
 from player import *
+from enemy import *
+from main import Damage_Text
 
 class Weapon():
     def __init__(self, img, x, y, arrow_img):
@@ -45,16 +47,38 @@ class Arrow(pygame.sprite.Sprite):
         super().__init__()
         self.original_image = image
         self.angle = angle
-        self.speed = 200
+        self.speed = const.ARROW_SPEED
         self.arrow_x = float(x)
         self.arrow_y = float(y)
         self.rect = image.get_rect(centerx = x, centery = y)
         self.image = pygame.transform.rotate(self.original_image, self.angle - 90) #This is rotated image
+        self.font = pygame.font.Font(const.FONT_PATH, 24)
         
-    def update(self, delta_time):
+    def update(self, delta_time, enemy_group, damage_group):
         dx = math.cos(math.radians(self.angle))
         dy = math.sin(math.radians(self.angle))
         self.arrow_x += dx * self.speed * delta_time
         self.arrow_y += -(dy * self.speed * delta_time)
         self.rect.x = int(self.arrow_x)
         self.rect.y = int(self.arrow_y)
+        self.check_col(enemy_group, damage_group)
+        self.delete()
+        
+    def delete(self):
+        if self.rect.right <= 0 or self.rect.x > const.SCREEN_WIDTH - self.rect.w:
+            self.kill()
+        if self.rect.bottom <= 0 or self.rect.y > const.SCREEN_HEIGHT + self.rect.h:
+            self.kill()
+            
+    def check_col(self, enemy_group, damage_group):
+        damage = 10
+        for enemy in enemy_group:
+            if self.rect.colliderect(enemy.rect):
+                self.kill()
+                enemy.health -= damage
+                if enemy.health <= 0:
+                    enemy.kill()
+                    break
+                
+                damage_text = self.font.render(str(damage), True, (255, 255, 255))
+                damage_group.add(Damage_Text(enemy.rect.x, enemy.rect.y, damage_text))

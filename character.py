@@ -1,9 +1,10 @@
 import pygame
 import constant as const
 
-class Character():
+class Character(pygame.sprite.Sprite):
 
     def __init__(self, animation:pygame.Surface, x ,y):
+        super().__init__()
         self.image = animation[0][0]
         self.animation = animation
         self.rect = self.image.get_rect(x = x , y = y)

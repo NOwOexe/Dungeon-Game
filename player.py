@@ -4,12 +4,13 @@ import constant as const
 from character import *
 
 class Player(Character):
-    def __init__(self, animation, x, y):
+    def __init__(self, animation, x, y, health):
         super().__init__(animation, x, y)
         self.rect = pygame.Rect(const.PLAYER_X, const.PLAYER_Y, animation[0][0].get_width(),
                                 animation[0][0].get_height() - const.PLAYER_OFFSET * const.CHARACTER_FACTOR)
         self.speed = const.PLAYER_SPEED
         self.player_x, self.player_y = float(const.PLAYER_X), float(const.PLAYER_Y)
+        self.health = health
         
     def draw(self, screen:pygame.Surface):
         flipped_image = pygame.transform.flip(self.image, self.is_flipped, False)
