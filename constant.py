@@ -1,15 +1,25 @@
 SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 BACKGROUND_COLOR = (0, 0, 100)
-PLAYER_PATH = "assets/images/characters/"
 PLAYER_HEALTH = 100
 ENEMY_HEALTH = 100
+
+PLAYER_PATH = "assets/images/characters/"
 BOW_PATH = "assets/images/weapons/bow.png"
 ARROW_PATH = "assets/images/weapons/arrow.png"
+ITEM_PATH = "assets/images/items/"
+
+ARROW_RELOAD = 500
+ARROW_RELOAD = 500
 ARROW_RELOAD = 500
 ARROW_SPEED = 400
+
+BASE_FACTOR = 1.5
 CHARACTER_FACTOR = 2.5
 BOW_FACTOR = 1.25
 ARROW_FACTOR = 1.5
+HEART_FACTOR = 2.2
+COIN_FACTOR = 3
+
 PLAYER_SPEED = 250
 PLAYER_X, PLAYER_Y = 400, 300
 PLAYER_OFFSET = 12
@@ -18,3 +28,4 @@ FONT_PATH = "assets/fonts/AtariClassic.ttf"
 R_COLOR = (255, 0, 0)
 G_COLOR = (0, 255, 0)
 B_COLOR = (0, 0, 255)
+GR_COLOR = (169, 169, 169)
