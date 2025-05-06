@@ -42,7 +42,7 @@ class Game():
 
         #Player
         animation = self.load_animation()
-        self.player = Player(animation[self.char_dict["elf"]], const.PLAYER_X, const.PLAYER_Y, const.PLAYER_HEALTH - 20)
+        self.player = Player(animation[self.char_dict["elf"]], const.PLAYER_X, const.PLAYER_Y, const.PLAYER_HEALTH)
         
         #Enemy
         self.enemy = Enemy(animation[self.char_dict["goblin"]], const.PLAYER_X, const.PLAYER_Y, const.ENEMY_HEALTH)
