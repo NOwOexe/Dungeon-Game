@@ -11,6 +11,7 @@ class Player(Character):
         self.speed = const.PLAYER_SPEED
         self.player_x, self.player_y = float(const.PLAYER_X), float(const.PLAYER_Y)
         self.health = health
+        self.score = 0
         
     def draw(self, screen:pygame.Surface):
         flipped_image = pygame.transform.flip(self.image, self.is_flipped, False)

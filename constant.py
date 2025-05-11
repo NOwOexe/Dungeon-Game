@@ -7,6 +7,7 @@ PLAYER_PATH = "assets/images/characters/"
 BOW_PATH = "assets/images/weapons/bow.png"
 ARROW_PATH = "assets/images/weapons/arrow.png"
 ITEM_PATH = "assets/images/items/"
+TILE_PATH = "assets/images/tiles/"
 
 ARROW_RELOAD = 500
 ARROW_RELOAD = 500
@@ -19,6 +20,9 @@ BOW_FACTOR = 1.25
 ARROW_FACTOR = 1.5
 HEART_FACTOR = 2.2
 COIN_FACTOR = 3
+POTION_FACTOR = 2.35
+TILE_FACTOR = 3
+TILE_SIZE = TILE_FACTOR * 16
 
 PLAYER_SPEED = 250
 PLAYER_X, PLAYER_Y = 400, 300
@@ -29,3 +33,4 @@ R_COLOR = (255, 0, 0)
 G_COLOR = (0, 255, 0)
 B_COLOR = (0, 0, 255)
 GR_COLOR = (169, 169, 169)
+W_COLOR = (255, 255, 255)

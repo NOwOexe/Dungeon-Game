@@ -75,10 +75,40 @@ class Game():
             self.heart_list.append(new_heart)
             
         #Coins
-        coin_animation = self.load_coins()
-        coin = Items(coin_animation[0], coin_animation, const.SCREEN_WIDTH / 2, const.SCREEN_HEIGHT / 2)
+        self.coin_animation = self.load_coins()
+        coin = Coin(self.coin_animation[0], self.coin_animation, 500, 500)
         self.coin_group = pygame.sprite.Group()
         self.coin_group.add(coin)
+        
+        #Potion
+        potion_img = self.change_scale(self.load_image(os.path.join(const.ITEM_PATH, "potion_red.png")), const.POTION_FACTOR)
+        potion = Potion(potion_img, 100, 100)
+        self.potion_group = pygame.sprite.Group()
+        self.potion_group.add(potion)
+        
+        #Font
+        self.score_font = pygame.font.Font(const.FONT_PATH, 24)
+        
+        #Map
+        self.map_dict = {
+            0: self.change_scale(self.load_image(os.path.join(const.TILE_PATH, "0.png")), const.TILE_FACTOR),
+            7: self.change_scale(self.load_image(os.path.join(const.TILE_PATH, "7.png")), const.TILE_FACTOR)
+        }
+        
+        self.map = [
+            [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+            [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+            [7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7],
+            [7, 7, 7, 7, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
+            [7, 7, 0, 0, 0, 7, 7, 7, 0, 0, 0,0, 7, 7, 7, 7],
+            [7, 7, 0, 7, 0, 7, 7, 7, 0, 7, 7, 0, 7, 7, 7, 7],
+            [7, 7, 0, 7, 0, 7, 7, 7, 0, 0, 0, 0, 7, 7, 7, 7],
+            [7, 7, 0, 7, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
+            [7, 7, 0, 0, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
+            [7, 7, 7, 7, 0, 7, 0, 0, 0, 7, 0, 7, 7, 7, 7, 7],
+            [7, 7, 7, 7, 0, 0, 0, 7, 0, 0, 0, 7, 7, 7, 7, 7],
+            [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+        ]
                 
     def change_scale(self, image, factor):
         image = pygame.transform.scale_by(image, factor)
@@ -122,6 +152,16 @@ class Game():
                 half_heart = True
             else:
                 self.screen.blit(self.heart_list[2], (10 + (i * 35), 10))
+                
+    def display_score(self):
+        score = self.score_font.render(f"x{str(self.player.score)}", True, const.W_COLOR)
+        self.screen.blit(score, (const.SCREEN_WIDTH - 60, 15))
+        self.screen.blit(self.coin_animation[0], (const.SCREEN_WIDTH - 90, 15))
+        
+    def load_map(self):
+        for r, row in enumerate(self.map):
+            for c, col in enumerate(row):
+                self.screen.blit(self.map_dict[col], (const.TILE_SIZE * c, const.TILE_SIZE * r))
 
     def run(self):
         run = True
@@ -135,6 +175,7 @@ class Game():
                     run = False
 
             self.screen.fill(const.BACKGROUND_COLOR)
+            self.load_map()
             self.display_health()
             self.player.draw(self.screen)
             self.player.move(delta_time)
@@ -150,6 +191,12 @@ class Game():
             self.damage_text_group.update()
             self.coin_group.draw(self.screen)
             self.coin_group.update()
+            self.potion_group.draw(self.screen)
+            self.display_score()
+            for coin in self.coin_group:
+                coin.check_collide(self.player)
+            for potion in self.potion_group:
+                potion.heal(self.player)
             pygame.display.update()
 
         pygame.quit()
