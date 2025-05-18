@@ -6,6 +6,7 @@ from player import *
 from weapon import *
 from enemy import *
 from item import *
+from world import *
 
 class Damage_Text(pygame.sprite.Sprite):
     def __init__(self, x, y, image):
@@ -90,25 +91,28 @@ class Game():
         self.score_font = pygame.font.Font(const.FONT_PATH, 24)
         
         #Map
-        self.map_dict = {
-            0: self.change_scale(self.load_image(os.path.join(const.TILE_PATH, "0.png")), const.TILE_FACTOR),
-            7: self.change_scale(self.load_image(os.path.join(const.TILE_PATH, "7.png")), const.TILE_FACTOR)
-        }
+        # self.map_dict = {
+        #     0: self.change_scale(self.load_image(os.path.join(const.TILE_PATH, "0.png")), const.TILE_FACTOR),
+        #     7: self.change_scale(self.load_image(os.path.join(const.TILE_PATH, "7.png")), const.TILE_FACTOR)
+        # }
         
-        self.map = [
-            [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
-            [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
-            [7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7],
-            [7, 7, 7, 7, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
-            [7, 7, 0, 0, 0, 7, 7, 7, 0, 0, 0,0, 7, 7, 7, 7],
-            [7, 7, 0, 7, 0, 7, 7, 7, 0, 7, 7, 0, 7, 7, 7, 7],
-            [7, 7, 0, 7, 0, 7, 7, 7, 0, 0, 0, 0, 7, 7, 7, 7],
-            [7, 7, 0, 7, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
-            [7, 7, 0, 0, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
-            [7, 7, 7, 7, 0, 7, 0, 0, 0, 7, 0, 7, 7, 7, 7, 7],
-            [7, 7, 7, 7, 0, 0, 0, 7, 0, 0, 0, 7, 7, 7, 7, 7],
-            [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-        ]
+        # self.map = [
+        #     [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+        #     [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7],
+        #     [7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7],
+        #     [7, 7, 7, 7, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
+        #     [7, 7, 0, 0, 0, 7, 7, 7, 7, 0, 0, 0, 0, 7, 7, 7],
+        #     [7, 7, 0, 7, 0, 7, 7, 7, 7, 0, 7, 7, 0, 7, 7, 7],
+        #     [7, 7, 0, 7, 0, 7, 7, 7, 7, 0, 0, 0, 0, 7, 7, 7],
+        #     [7, 7, 0, 7, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
+        #     [7, 7, 0, 0, 0, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7],
+        #     [7, 7, 7, 7, 0, 7, 0, 0, 0, 7, 0, 7, 7, 7, 7, 7],
+        #     [7, 7, 7, 7, 0, 0, 0, 7, 0, 0, 0, 7, 7, 7, 7, 7],
+        #     [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+        # ]
+        
+        self.world = World()
+        self.world.load_level(1)
                 
     def change_scale(self, image, factor):
         image = pygame.transform.scale_by(image, factor)
@@ -158,10 +162,10 @@ class Game():
         self.screen.blit(score, (const.SCREEN_WIDTH - 60, 15))
         self.screen.blit(self.coin_animation[0], (const.SCREEN_WIDTH - 90, 15))
         
-    def load_map(self):
-        for r, row in enumerate(self.map):
-            for c, col in enumerate(row):
-                self.screen.blit(self.map_dict[col], (const.TILE_SIZE * c, const.TILE_SIZE * r))
+    # def load_map(self):
+    #     for r, row in enumerate(self.map):
+    #         for c, col in enumerate(row):
+    #             self.screen.blit(self.map_dict[col], (const.TILE_SIZE * c, const.TILE_SIZE * r))
 
     def run(self):
         run = True
@@ -175,7 +179,8 @@ class Game():
                     run = False
 
             self.screen.fill(const.BACKGROUND_COLOR)
-            self.load_map()
+            # self.load_map()
+            self.world.load_tiles(self.screen)
             self.display_health()
             self.player.draw(self.screen)
             self.player.move(delta_time)

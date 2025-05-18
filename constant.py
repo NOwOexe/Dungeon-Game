@@ -8,6 +8,7 @@ BOW_PATH = "assets/images/weapons/bow.png"
 ARROW_PATH = "assets/images/weapons/arrow.png"
 ITEM_PATH = "assets/images/items/"
 TILE_PATH = "assets/images/tiles/"
+LEVEL_PATH = "levels/"
 
 ARROW_RELOAD = 500
 ARROW_RELOAD = 500
@@ -34,3 +35,6 @@ G_COLOR = (0, 255, 0)
 B_COLOR = (0, 0, 255)
 GR_COLOR = (169, 169, 169)
 W_COLOR = (255, 255, 255)
+
+EMPTY_TILE = -1
+WALL_TILE = 7
