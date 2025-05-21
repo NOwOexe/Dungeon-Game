@@ -13,8 +13,10 @@ class Weapon():
         self.rotated_image = pygame.transform.rotate(self.original_image, self.bow_angle)
         self.start_time = pygame.time.get_ticks()
         self.is_fired = False
+        self.rotated_images = {}
 
     def draw(self, screen):
+        self.rotated_image = self.get_rotated_image()
         self.rect = self.rotated_image.get_rect(center = self.rect.center)
         screen.blit(self.rotated_image, self.rect)
 
@@ -24,7 +26,6 @@ class Weapon():
         dx = cursor_pos[0] - self.rect.centerx
         dy = -(cursor_pos[1] - self.rect.centery)
         self.bow_angle = math.degrees(math.atan2(dy, dx))
-        self.rotated_image = pygame.transform.rotate(self.original_image, self.bow_angle)
         
         #Arrow
         arrow = None
@@ -40,7 +41,12 @@ class Weapon():
                 self.is_fired = False
                 self.start_time = current_time
         return arrow
-        
+    
+    def get_rotated_image(self):
+        angle = round(self.bow_angle / 5) * 5
+        if angle not in self.rotated_images:
+            self.rotated_images[angle] = pygame.transform.rotate(self.original_image, angle)
+        return self.rotated_images[angle]
         
 class Arrow(pygame.sprite.Sprite):
     def __init__(self, x, y, angle, image:pygame.surface):
