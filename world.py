@@ -46,6 +46,7 @@ class World():
                     if collidable:
                         self.wall.append(tile.rect)
                         
-    def load_tiles(self, screen):
+    def load_tiles(self, screen, camera):
+        offset_x, offset_y = camera.offset()
         for tile in self.tiles:
-            screen.blit(tile.image, (tile.rect.x, tile.rect.y))
+            screen.blit(tile.image, (tile.rect.x - offset_x, tile.rect.y - offset_y))

@@ -7,6 +7,7 @@ from weapon import *
 from enemy import *
 from item import *
 from world import *
+from camera import *
 
 class Damage_Text(pygame.sprite.Sprite):
     def __init__(self, x, y, image):
@@ -113,6 +114,9 @@ class Game():
         
         self.world = World()
         self.world.load_level(1)
+        
+        #Camera
+        self.camera = Camera()
                 
     def change_scale(self, image, factor):
         image = pygame.transform.scale_by(image, factor)
@@ -180,13 +184,13 @@ class Game():
 
             self.screen.fill(const.BACKGROUND_COLOR)
             # self.load_map()
-            self.world.load_tiles(self.screen)
+            self.world.load_tiles(self.screen, self.camera)
             self.display_health()
-            self.player.draw(self.screen)
+            self.player.draw(self.screen, self.camera)
             self.player.move(delta_time)
-            self.bow.draw(self.screen)
+            self.bow.draw(self.screen, self.camera)
             self.player.update()
-            self.arrow = self.bow.update(self.player)
+            self.arrow = self.bow.update(self.player, self.camera)
             if self.arrow:
                 self.arrow_group.add(self.arrow)
             self.arrow_group.draw(self.screen)
@@ -202,6 +206,7 @@ class Game():
                 coin.check_collide(self.player)
             for potion in self.potion_group:
                 potion.heal(self.player)
+            self.camera.update(self.player.rect)
             pygame.display.update()
 
         pygame.quit()

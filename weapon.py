@@ -15,16 +15,18 @@ class Weapon():
         self.is_fired = False
         self.rotated_images = {}
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
+        offset_x, offset_y = camera.offset()
         self.rotated_image = self.get_rotated_image()
         self.rect = self.rotated_image.get_rect(center = self.rect.center)
-        screen.blit(self.rotated_image, self.rect)
+        screen.blit(self.rotated_image, (self.rect.x - offset_x, self.rect.y - offset_y))
 
-    def update(self, player:Player):
+    def update(self, player:Player, camera):
+        offset_x, offset_y = camera.offset()
         cursor_pos = pygame.mouse.get_pos()
         self.rect.center = player.rect.center
-        dx = cursor_pos[0] - self.rect.centerx
-        dy = -(cursor_pos[1] - self.rect.centery)
+        dx = cursor_pos[0] - self.rect.centerx + offset_x
+        dy = -(cursor_pos[1] - self.rect.centery + offset_y)
         self.bow_angle = math.degrees(math.atan2(dy, dx))
         
         #Arrow

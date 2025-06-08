@@ -13,10 +13,11 @@ class Player(Character):
         self.health = health
         self.score = 0
         
-    def draw(self, screen:pygame.Surface):
+    def draw(self, screen:pygame.Surface, camera):
+        offset_x, offset_y = camera.offset()
         flipped_image = pygame.transform.flip(self.image, self.is_flipped, False)
-        pygame.draw.rect(screen, (const.G_COLOR), self.rect, width= 1)
-        screen.blit(flipped_image, (self.rect.x, self.rect.y - const.PLAYER_OFFSET * const.CHARACTER_FACTOR))
+        pygame.draw.rect(screen, (const.G_COLOR), (self.rect.x - offset_x, self.rect.y - offset_y, self.rect.w, self.rect.h), width= 1)
+        screen.blit(flipped_image, (self.rect.x- offset_x, self.rect.y - const.PLAYER_OFFSET * const.CHARACTER_FACTOR - offset_y))
 
     def move(self, dt):
         key = pygame.key.get_pressed()
